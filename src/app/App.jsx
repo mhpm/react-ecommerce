@@ -7,7 +7,7 @@ import styled, { ThemeProvider } from "styled-components"
 import ThemeUI from "utils/ThemeUI"
 import AuthState from "context/auth/authState"
 import "./App.css"
-import { auth } from "firebase/firebase.config"
+import { auth, createUserProfileDocument } from "firebase/firebase.config"
 
 const Container = styled.div`
   padding: 60px 60px;
@@ -20,8 +20,18 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      setUser(user)
+    auth.onAuthStateChanged(async (userAuth) => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth)
+        userRef.onSnapshot((snapShot) => {
+          setUser({
+            id: snapShot.id,
+            ...snapShot.data(),
+          })
+        })
+      } else {
+        setUser(null)
+      }
     })
   }, [])
 
