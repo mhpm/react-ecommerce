@@ -4,14 +4,22 @@ import Input from "components/Input"
 import Button from "components/Button"
 import FormContainer from "components/FormContainer"
 
-const SingUpForm = ({ switchForm, handlerForm }) => {
-  const [name, setName] = useState("")
+const SingUpForm = ({ switchForm, singUpForm }) => {
+  const [displayName, setDisplayName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [passConfirm, setPassConfirm] = useState("")
 
+  const validateForm = () => {
+    if (displayName === "" || email === "" || password === "") return false
+    else if (password === "" || password !== passConfirm) return false
+    else return true
+  }
+
   const onSubmit = (e) => {
     e.preventDefault()
+    if (!validateForm()) return
+    singUpForm(displayName, email, password)
   }
 
   return (
@@ -20,7 +28,12 @@ const SingUpForm = ({ switchForm, handlerForm }) => {
       <p>Please type the next information</p>
       <br />
       <form onSubmit={onSubmit}>
-        <Input type="text" value={name} label="Display Name" />
+        <Input
+          type="text"
+          value={displayName}
+          onChange={(e) => setDisplayName(e.target.value)}
+          label="Display Name"
+        />
         <Input
           type="text"
           label="Email"
@@ -41,7 +54,7 @@ const SingUpForm = ({ switchForm, handlerForm }) => {
             password !== "" && password === passConfirm ? (
               <i
                 style={{ color: "rgba(56, 179, 47, 0.61)" }}
-                class="fas fa-check fa-lg"
+                className="fas fa-check fa-lg"
               ></i>
             ) : null
           }

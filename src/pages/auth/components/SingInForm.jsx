@@ -4,7 +4,6 @@ import Input from "components/Input"
 import Button from "components/Button"
 import FormContainer from "components/FormContainer"
 import styled from "styled-components"
-import { singInWithGoogle } from "firebase/firebase.config"
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -23,12 +22,15 @@ const ButtonContainer = styled.div`
   }
 `
 
-const SingInForm = ({ switchForm, handlerForm }) => {
+const SingInForm = ({ switchForm, handleSingIn, singInWithGoogle }) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
   const onSubmit = (e) => {
     e.preventDefault()
+    if (email === "" || password === "") return
+
+    handleSingIn(email, password)
   }
 
   return (

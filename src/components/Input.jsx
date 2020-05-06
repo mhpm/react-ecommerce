@@ -4,13 +4,9 @@ import styled from "styled-components"
 const InputContainer = styled.div`
   position: relative;
   font-size: 14px;
-  margin-bottom: 25px;
+  margin-bottom: 45px;
   margin-top: 15px;
   height: auto;
-`
-
-const Label = styled.label`
-  color: rgba(0, 0, 0, 0.54);
 `
 
 const InputStyled = styled.input`
@@ -23,6 +19,17 @@ const InputStyled = styled.input`
   border-bottom: 1.2px solid rgba(0, 0, 0, 0.54);
   &:focus {
     outline: none;
+    border-color: #bf3272;
+  }
+`
+
+const Label = styled.label`
+  color: rgba(0, 0, 0, 0.54);
+  position: absolute;
+  top: -14px;
+  left: 0;
+  ${InputStyled}:focus ~ & {
+    color: #bf3272;
   }
 `
 
@@ -42,9 +49,9 @@ const Icon = styled.div`
 const Input = ({ label, value, helpText, onChange, type, icon }) => {
   return (
     <InputContainer>
-      <Label htmlFor={label}>{label}</Label>
       {icon && <Icon>{icon}</Icon>}
       <InputStyled type={type} value={value} onChange={onChange} />
+      <Label htmlFor={label}>{label}</Label>
       <HelpText>{helpText}</HelpText>
     </InputContainer>
   )

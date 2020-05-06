@@ -1,34 +1,35 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useContext } from "react"
 import { Redirect } from "react-router-dom"
 import SingInForm from "./components/SingInForm"
 import SingUpForm from "./components/SingUpForm"
 import CenterChildren from "components/CenterChildren"
-import { auth } from "firebase/firebase.config"
+import authContext from "context/auth/authContext"
 
 const Auth = () => {
   const [login, setLogin] = useState(true)
+  const { isAuthenticated, singIn, singUp, singInWithGoogle } = useContext(
+    authContext
+  )
   const switchForm = () => setLogin(!login)
-  const [user, setUser] = useState(null)
 
-  useEffect(() => {
-    let unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user)
-    })
-
-    return () => {
-      unsubscribe()
-    }
-  }, [])
-
-  if (user?.email) {
+  if (isAuthenticated) {
     return <Redirect to="/" />
   } else {
     return (
       <CenterChildren>
         {login ? (
-          <SingInForm switchForm={switchForm}></SingInForm>
+          <SingInForm
+            switchForm={switchForm}
+            singInWithGoogle={singInWithGoogle}
+            handleSingIn={(email, password) => singIn(email, password)}
+          ></SingInForm>
         ) : (
-          <SingUpForm switchForm={switchForm}></SingUpForm>
+          <SingUpForm
+            switchForm={switchForm}
+            handleSingUp={(displayName, email, password) =>
+              singUp(displayName, email, password)
+            }
+          ></SingUpForm>
         )}
       </CenterChildren>
     )

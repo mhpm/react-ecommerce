@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { Route, Switch } from "react-router-dom"
 import Shop from "pages/shop/Shop.Landing"
 import Auth from "pages/auth/Auth.Landing"
@@ -7,7 +7,6 @@ import styled, { ThemeProvider } from "styled-components"
 import ThemeUI from "utils/ThemeUI"
 import AuthState from "context/auth/authState"
 import "./App.css"
-import { auth, createUserProfileDocument } from "firebase/firebase.config"
 
 const Container = styled.div`
   padding: 60px 60px;
@@ -16,39 +15,23 @@ const Container = styled.div`
   }
 `
 
-const App = () => {
-  const [user, setUser] = useState(null)
-
-  useEffect(() => {
-    auth.onAuthStateChanged(async (userAuth) => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth)
-        userRef.onSnapshot((snapShot) => {
-          setUser({
-            id: snapShot.id,
-            ...snapShot.data(),
-          })
-        })
-      } else {
-        setUser(null)
-      }
-    })
-  }, [])
-
-  return (
-    <AuthState>
-      <ThemeProvider theme={ThemeUI}>
-        <Header currentUser={user} />
-        <Container>
-          <Switch>
-            <Route exact path="/" component={Shop} />
-            <Route exact path="/shop" component={Shop} />
-            <Route exact path="/auth" currentUser={user} component={Auth} />
-          </Switch>
-        </Container>
-      </ThemeProvider>
-    </AuthState>
-  )
+class App extends React.Component {
+  render() {
+    return (
+      <AuthState>
+        <ThemeProvider theme={ThemeUI}>
+          <Header />
+          <Container>
+            <Switch>
+              <Route exact path="/" component={Shop} />
+              <Route exact path="/shop" component={Shop} />
+              <Route exact path="/auth" component={Auth} />
+            </Switch>
+          </Container>
+        </ThemeProvider>
+      </AuthState>
+    )
+  }
 }
 
 export default App

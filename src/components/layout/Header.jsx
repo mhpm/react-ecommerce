@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useContext, useState } from "react"
 import Logo from "assets/logo.png"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
-import { auth } from "firebase/firebase.config"
-import Button from "components/Button"
+import authContext from "context/auth/authContext"
+import UserMenu from "./UserMenu"
+import SideMenu from "./SideMenu"
 
 const Container = styled.div`
   display: flex;
@@ -11,10 +12,10 @@ const Container = styled.div`
   align-items: center;
   padding: 15px;
   height: 50px;
-  @media screen and (max-width: 600px) {
+  /* @media screen and (max-width: 600px) {
     text-align: center;
     justify-content: center;
-  }
+  } */
 `
 
 const LinkBase = styled(Link)`
@@ -44,7 +45,7 @@ const Brand = styled(LinkBase)`
 
 const Options = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   width: auto;
   margin-right: 45px;
   @media screen and (max-width: 600px) {
@@ -52,7 +53,9 @@ const Options = styled.div`
   }
 `
 
-const Header = ({ currentUser }) => {
+const Header = () => {
+  const { user, singOut } = useContext(authContext)
+
   return (
     <Container>
       <Brand to="/">
@@ -61,14 +64,9 @@ const Header = ({ currentUser }) => {
       <Options>
         <LinkBase to="/shop">SHOP</LinkBase>
         <LinkBase to="/contact">CONTACT</LinkBase>
-        {currentUser ? (
-          <LinkBase to="#" onClick={() => auth.signOut()}>
-            SING OUT
-          </LinkBase>
-        ) : (
-          <LinkBase to="/auth">SING IN</LinkBase>
-        )}
+        <UserMenu user={user} singOut={singOut} />
       </Options>
+      <SideMenu user={user} singOut={singOut} />
     </Container>
   )
 }
