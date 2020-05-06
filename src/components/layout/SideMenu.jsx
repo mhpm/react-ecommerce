@@ -48,12 +48,6 @@ const Menu = styled.div`
   background-color: #333238;
   transition: right 0.5s;
 `
-const Line = styled.div`
-  width: 100%;
-  border-bottom: 1px solid #4e4d4d;
-  margin-bottom: 15px;
-  margin-top: 15px;
-`
 
 const SideMenu = ({ user, ...props }) => {
   const [isOpen, setIsOpen] = useState(false)

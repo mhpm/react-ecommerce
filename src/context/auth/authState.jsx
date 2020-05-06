@@ -8,6 +8,9 @@ import AuthContext from "./authContext"
 import AuthReducer from "./authReducer"
 import { SET_LOADING, SING_IN, SING_OUT } from "../types"
 
+var isSingUp = false
+var unsubscribreFromAuth = null
+
 const AuthState = (props) => {
   const initialState = {
     user: null,
@@ -15,8 +18,6 @@ const AuthState = (props) => {
     loading: false,
   }
 
-  var isSingUp = false
-  var unsubscribreFromAuth = null
   const [state, dispatch] = useReducer(AuthReducer, initialState)
 
   useEffect(() => {
@@ -54,7 +55,7 @@ const AuthState = (props) => {
         let errorCode = error.code
         let errorMessage = error.message
         // ...
-        console.error(errorMessage)
+        console.error(errorCode, errorMessage)
       })
   }
 
@@ -76,7 +77,7 @@ const AuthState = (props) => {
         let errorCode = error.code
         let errorMessage = error.message
         // ...
-        console.error(errorMessage)
+        console.error(errorCode, errorMessage)
       })
   }
 
