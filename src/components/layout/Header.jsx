@@ -2,9 +2,11 @@ import React, { useContext } from "react"
 import Logo from "assets/logo.png"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
-import authContext from "context/auth/authContext"
+import { auth } from "firebase/firebase.config"
 import UserMenu from "./UserMenu"
 import SideMenu from "./SideMenu"
+
+import { connect } from "react-redux"
 
 const Container = styled.div`
   display: flex;
@@ -53,9 +55,7 @@ const Options = styled.div`
   }
 `
 
-const Header = () => {
-  const { user, singOut } = useContext(authContext)
-
+const Header = ({ user }) => {
   return (
     <Container>
       <Brand to="/">
@@ -64,11 +64,15 @@ const Header = () => {
       <Options>
         <LinkBase to="/shop">SHOP</LinkBase>
         <LinkBase to="/contact">CONTACT</LinkBase>
-        <UserMenu user={user} singOut={singOut} />
+        <UserMenu user={user} singOut={() => auth.signOut()} />
       </Options>
-      <SideMenu user={user} singOut={singOut} />
+      <SideMenu user={user} singOut={() => auth.signOut()} />
     </Container>
   )
 }
 
-export default Header
+const mapStateToProps = (state) => ({
+  user: state.user.currentUser,
+})
+
+export default connect(mapStateToProps)(Header)

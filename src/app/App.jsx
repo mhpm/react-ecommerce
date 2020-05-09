@@ -5,8 +5,11 @@ import Auth from "pages/auth/Auth.Landing"
 import Header from "components/layout/Header"
 import styled, { ThemeProvider } from "styled-components"
 import ThemeUI from "utils/ThemeUI"
-import AuthState from "context/auth/authState"
 import "./App.css"
+import { connect } from "react-redux"
+import { setCurrentUser } from "redux/user/userActions"
+import AuthState from "context/auth/authState"
+import { createUserProfileDocument, auth } from "firebase/firebase.config"
 
 const Container = styled.div`
   padding: 60px 60px;
@@ -16,6 +19,25 @@ const Container = styled.div`
 `
 
 class App extends React.Component {
+  unsubscribreFromAuth = null
+
+  componentDidMount() {
+    const { setCurrentUser } = this.props
+
+    this.unsubscribreFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth)
+        userRef.onSnapshot((snapShot) => {
+          setCurrentUser({
+            id: snapShot.id,
+            ...snapShot.data(),
+          })
+        })
+      }
+      setCurrentUser(userAuth)
+    })
+  }
+
   render() {
     return (
       <AuthState>
@@ -34,4 +56,8 @@ class App extends React.Component {
   }
 }
 
-export default App
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+})
+
+export default connect(null, mapDispatchToProps)(App)

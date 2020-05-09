@@ -4,12 +4,15 @@ import SingInForm from "./components/SingInForm"
 import SingUpForm from "./components/SingUpForm"
 import CenterChildren from "components/CenterChildren"
 import authContext from "context/auth/authContext"
+import {
+  auth,
+  createUserProfileDocument,
+  singInWithGoogle,
+} from "firebase/firebase.config"
 
 const Auth = () => {
   const [login, setLogin] = useState(true)
-  const { isAuthenticated, singIn, singUp, singInWithGoogle } = useContext(
-    authContext
-  )
+  const { isAuthenticated, singIn, singUp } = useContext(authContext)
   const switchForm = () => setLogin(!login)
 
   if (isAuthenticated) {
