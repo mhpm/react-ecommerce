@@ -1,5 +1,5 @@
 import React from "react"
-import { Route, Switch } from "react-router-dom"
+import { Route, Switch, Redirect } from "react-router-dom"
 import Shop from "pages/shop/Shop.Landing"
 import Auth from "pages/auth/Auth.Landing"
 import Header from "components/layout/Header"
@@ -33,8 +33,7 @@ class App extends React.Component {
             ...snapShot.data(),
           })
         })
-      }
-      setCurrentUser(userAuth)
+      } else setCurrentUser(userAuth)
     })
   }
 
@@ -46,8 +45,14 @@ class App extends React.Component {
           <Container>
             <Switch>
               <Route exact path="/" component={Shop} />
-              <Route exact path="/shop" component={Shop} />
-              <Route exact path="/auth" component={Auth} />
+              <Route path="/shop" component={Shop} />
+              <Route
+                exact
+                path="/auth"
+                render={() =>
+                  this.props.user ? <Redirect to="/" /> : <Auth />
+                }
+              />
             </Switch>
           </Container>
         </ThemeProvider>
@@ -56,8 +61,12 @@ class App extends React.Component {
   }
 }
 
+const mapStateToProps = ({ user }) => ({
+  user: user.currentUser,
+})
+
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 })
 
-export default connect(null, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)
