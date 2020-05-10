@@ -8,7 +8,6 @@ import ThemeUI from "utils/ThemeUI"
 import "./App.css"
 import { connect } from "react-redux"
 import { setCurrentUser } from "redux/user/userActions"
-import AuthState from "context/auth/authState"
 import { createUserProfileDocument, auth } from "firebase/firebase.config"
 
 const Container = styled.div`
@@ -33,30 +32,31 @@ class App extends React.Component {
             ...snapShot.data(),
           })
         })
-      } else setCurrentUser(userAuth)
+      }
+      setCurrentUser(userAuth)
     })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribreFromAuth()
   }
 
   render() {
     return (
-      <AuthState>
-        <ThemeProvider theme={ThemeUI}>
-          <Header />
-          <Container>
-            <Switch>
-              <Route exact path="/" component={Shop} />
-              <Route path="/shop" component={Shop} />
-              <Route
-                exact
-                path="/auth"
-                render={() =>
-                  this.props.user ? <Redirect to="/" /> : <Auth />
-                }
-              />
-            </Switch>
-          </Container>
-        </ThemeProvider>
-      </AuthState>
+      <ThemeProvider theme={ThemeUI}>
+        <Header />
+        <Container>
+          <Switch>
+            <Route exact path="/" component={Shop} />
+            <Route path="/shop" component={Shop} />
+            <Route
+              exact
+              path="/auth"
+              render={() => (this.props.user ? <Redirect to="/" /> : <Auth />)}
+            />
+          </Switch>
+        </Container>
+      </ThemeProvider>
     )
   }
 }

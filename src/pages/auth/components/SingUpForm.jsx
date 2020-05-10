@@ -4,7 +4,7 @@ import Input from "components/Input"
 import Button from "components/Button"
 import FormContainer from "components/FormContainer"
 
-const SingUpForm = ({ switchForm, singUpForm }) => {
+const SingUpForm = ({ switchForm, handleSingUp }) => {
   const [displayName, setDisplayName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -19,7 +19,7 @@ const SingUpForm = ({ switchForm, singUpForm }) => {
   const onSubmit = (e) => {
     e.preventDefault()
     if (!validateForm()) return
-    singUpForm(displayName, email, password)
+    handleSingUp(displayName, email, password)
   }
 
   return (
