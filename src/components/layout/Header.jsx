@@ -3,12 +3,14 @@ import Logo from "assets/logo.png"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { auth } from "firebase/firebase.config"
-import UserMenu from "./UserMenu"
 import SideMenu from "./SideMenu"
 
 import { connect } from "react-redux"
+import CartIcon from "components/CartIcon"
+import CartDropdown from "components/CartDropdown"
 
 const Container = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,10 +23,12 @@ const Container = styled.div`
 `
 
 const LinkBase = styled(Link)`
+  position: relative;
   text-decoration: none;
   color: #bf3272;
   font-weight: 500;
   margin-left: 35px;
+  font-size: 20px;
 
   &:focus,
   &:hover,
@@ -38,7 +42,7 @@ const LinkBase = styled(Link)`
 const Brand = styled(LinkBase)`
   font-size: 20px;
   font-weight: bolder;
-  margin-left: 45px;
+  padding-left: 10px;
   text-decoration: none;
   @media screen and (max-width: 600px) {
     margin-left: 0px;
@@ -49,13 +53,13 @@ const Options = styled.div`
   display: flex;
   justify-content: flex-start;
   width: auto;
-  margin-right: 45px;
+  margin-right: 50px;
   @media screen and (max-width: 600px) {
     display: none;
   }
 `
 
-const Header = ({ user }) => {
+const Header = ({ user, hidden }) => {
   return (
     <Container>
       <Brand to="/">
@@ -64,8 +68,18 @@ const Header = ({ user }) => {
       <Options>
         <LinkBase to="/shop">SHOP</LinkBase>
         <LinkBase to="/contact">CONTACT</LinkBase>
-        <UserMenu user={user} singOut={() => auth.signOut()} />
+        {user ? (
+          <LinkBase to="#" onClick={() => auth.signOut()}>
+            SING OUT
+          </LinkBase>
+        ) : (
+          <LinkBase to="/auth">SING IN</LinkBase>
+        )}
+        <LinkBase to="#">
+          <CartIcon data={10} />
+        </LinkBase>
       </Options>
+      {hidden && <CartDropdown />}
       <SideMenu user={user} singOut={() => auth.signOut()} />
     </Container>
   )
@@ -73,6 +87,7 @@ const Header = ({ user }) => {
 
 const mapStateToProps = (state) => ({
   user: state.user.currentUser,
+  hidden: state.cart.hidden,
 })
 
 export default connect(mapStateToProps)(Header)

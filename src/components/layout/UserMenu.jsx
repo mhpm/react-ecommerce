@@ -8,6 +8,7 @@ const LinkBase = styled(Link)`
   color: #bf3272;
   font-weight: 500;
   margin-left: 35px;
+  font-size: 20px;
 
   &:focus,
   &:hover,
@@ -85,7 +86,7 @@ const UserMenu = ({ user, singOut }) => {
     >
       {user ? (
         <LinkBase to="#" onClick={toggle}>
-          <FaUserCircle size="20px" onClick={toggle}></FaUserCircle>
+          <FaUserCircle size="24px" onClick={toggle}></FaUserCircle>
         </LinkBase>
       ) : (
         <LinkBase to="/auth">SING IN</LinkBase>

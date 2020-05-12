@@ -7,10 +7,8 @@ import {
   createUserProfileDocument,
   singInWithGoogle,
 } from "firebase/firebase.config"
-import { connect } from "react-redux"
-import { setCurrentUser } from "redux/user/userActions"
 
-const Auth = ({ setCurrentUser }) => {
+const Auth = () => {
   const [login, setLogin] = useState(true)
   const switchForm = () => setLogin(!login)
 
@@ -59,8 +57,4 @@ const Auth = ({ setCurrentUser }) => {
   )
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
-})
-
-export default connect(null, mapDispatchToProps)(Auth)
+export default Auth

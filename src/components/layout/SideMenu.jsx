@@ -31,7 +31,7 @@ const IconMenu = styled(FaBars)`
   cursor: pointer;
   font-size: 30px;
   float: right;
-  margin-right: 10px;
+  margin-right: 15px;
 `
 
 const Menu = styled.div`
