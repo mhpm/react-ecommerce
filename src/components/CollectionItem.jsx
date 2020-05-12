@@ -1,6 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 import Button from "./Button"
+import { connect } from "react-redux"
+import { addItem } from "redux/cart/cartActions"
 
 const Item = styled.div`
   position: relative;
@@ -60,20 +62,26 @@ const Background = styled.div`
   transition: opacity 0.5s;
 `
 
-const CollectionItem = ({ id, name, price, imageUrl }) => {
+const CollectionItem = ({ item, addItem }) => {
   return (
     <Item>
       <Background className="bgHover" />
-      <Img style={{ backgroundImage: `url(${imageUrl})` }} />
+      <Img style={{ backgroundImage: `url(${item.imageUrl})` }} />
       <ButtonContainer className="btnContainer">
-        <Button style={{ width: 180 }}>ADD TO CART</Button>
+        <Button style={{ width: 180 }} onClick={() => addItem(item)}>
+          ADD TO CART
+        </Button>
       </ButtonContainer>
       <Footer>
-        <span>{name}</span>
-        <span>${price}</span>
+        <span>{item.name}</span>
+        <span>${item.price}</span>
       </Footer>
     </Item>
   )
 }
 
-export default CollectionItem
+const mapDispatchToProps = (dispatch) => ({
+  addItem: (item) => dispatch(addItem(item)),
+})
+
+export default connect(null, mapDispatchToProps)(CollectionItem)

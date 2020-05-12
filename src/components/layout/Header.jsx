@@ -59,7 +59,7 @@ const Options = styled.div`
   }
 `
 
-const Header = ({ user, hidden }) => {
+const Header = ({ user, hidden, cartItems }) => {
   return (
     <Container>
       <Brand to="/">
@@ -76,7 +76,7 @@ const Header = ({ user, hidden }) => {
           <LinkBase to="/auth">SING IN</LinkBase>
         )}
         <LinkBase to="#">
-          <CartIcon data={10} />
+          <CartIcon data={cartItems.length} />
         </LinkBase>
       </Options>
       {hidden && <CartDropdown />}
@@ -88,6 +88,7 @@ const Header = ({ user, hidden }) => {
 const mapStateToProps = (state) => ({
   user: state.user.currentUser,
   hidden: state.cart.hidden,
+  cartItems: state.cart.cartItems,
 })
 
 export default connect(mapStateToProps)(Header)
