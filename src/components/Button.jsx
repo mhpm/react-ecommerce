@@ -3,7 +3,7 @@ import styled, { css } from "styled-components"
 
 const ButtonStyled = styled.button`
   font-family: inherit;
-  padding: 13px;
+  padding: 20px;
   width: 220px;
   background-color: ${(props) => props.theme.colors.default};
   border: none;
@@ -23,6 +23,15 @@ const ButtonStyled = styled.button`
       background-color: ${(props) => props.theme.colors[props.color]};
     `}
 
+    ${(props) =>
+      props.inverted &&
+      css`
+        font-weight: 600;
+        color: ${(props) => props.theme.colors.default};
+        background-color: white;
+        border: 2px solid ${(props) => props.theme.colors.default};
+      `}
+
   &:active {
     opacity: 80%;
   }
@@ -35,6 +44,8 @@ const ButtonStyled = styled.button`
   &:focus {
     outline: none !important;
   }
+
+
 `
 
 const Button = (props) => {
