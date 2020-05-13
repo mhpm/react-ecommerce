@@ -13,14 +13,14 @@ const Data = styled.span`
   z-index: 99;
   height: 100%;
   top: 2px;
-  font-size: 16px;
+  font-size: 14px;
 `
 
 const CartIcon = ({ data, toggleCartHidden }) => {
   return (
     <div onClick={toggleCartHidden}>
       <Data>{data}</Data>
-      <img src={ShoppingBag} alt="" height="40" />
+      <img src={ShoppingBag} alt="" height="35" />
     </div>
   )
 }

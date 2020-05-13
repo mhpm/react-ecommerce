@@ -6,8 +6,8 @@ import { auth } from "firebase/firebase.config"
 import SideMenu from "./SideMenu"
 
 import { connect } from "react-redux"
-import CartIcon from "components/CartIcon"
-import CartDropdown from "components/CartDropdown"
+import CartIcon from "components/cart/CartIcon"
+import CartDropdown from "components/cart/CartDropdown"
 
 const Container = styled.div`
   position: relative;
@@ -28,7 +28,7 @@ const LinkBase = styled(Link)`
   color: #bf3272;
   font-weight: 500;
   margin-left: 35px;
-  font-size: 20px;
+  font-size: 16px;
 
   &:focus,
   &:hover,
@@ -52,6 +52,7 @@ const Brand = styled(LinkBase)`
 const Options = styled.div`
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   width: auto;
   margin-right: 50px;
   @media screen and (max-width: 600px) {
