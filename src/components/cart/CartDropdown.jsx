@@ -3,6 +3,7 @@ import styled from "styled-components"
 import Button from "../Button"
 import { connect } from "react-redux"
 import CartItem from "./CartItem"
+import { selectCartItems } from "redux/cart/cartSelectors"
 
 const Dropdown = styled.div`
   position: absolute;
@@ -51,7 +52,7 @@ const CartDropdown = ({ cartItems }) => {
 }
 
 const mapStateToProps = (state) => ({
-  cartItems: state.cart.cartItems,
+  cartItems: selectCartItems(state),
 })
 
 export default connect(mapStateToProps)(CartDropdown)

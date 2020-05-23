@@ -8,6 +8,7 @@ import SideMenu from "./SideMenu"
 import { connect } from "react-redux"
 import CartIcon from "components/cart/CartIcon"
 import CartDropdown from "components/cart/CartDropdown"
+import { selectCartItemsCount } from "redux/cart/cartSelectors"
 
 const Container = styled.div`
   position: relative;
@@ -60,7 +61,7 @@ const Options = styled.div`
   }
 `
 
-const Header = ({ user, hidden, cartItems }) => {
+const Header = ({ user, hidden, itemCount }) => {
   return (
     <Container>
       <Brand to="/">
@@ -77,7 +78,7 @@ const Header = ({ user, hidden, cartItems }) => {
           <LinkBase to="/auth">SING IN</LinkBase>
         )}
         <LinkBase to="#">
-          <CartIcon data={cartItems.length} />
+          <CartIcon data={itemCount} />
         </LinkBase>
       </Options>
       {hidden && <CartDropdown />}
@@ -89,7 +90,7 @@ const Header = ({ user, hidden, cartItems }) => {
 const mapStateToProps = (state) => ({
   user: state.user.currentUser,
   hidden: state.cart.hidden,
-  cartItems: state.cart.cartItems,
+  itemCount: selectCartItemsCount(state),
 })
 
 export default connect(mapStateToProps)(Header)
