@@ -3,7 +3,8 @@ import styled from "styled-components"
 import Button from "../Button"
 import { connect } from "react-redux"
 import CartItem from "./CartItem"
-import { selectCartItems } from "redux/cart/cartSelectors"
+import { selectCartItems, selectCartHidden } from "redux/cart/cartSelectors"
+import { createStructuredSelector } from "reselect"
 
 const Dropdown = styled.div`
   position: absolute;
@@ -36,23 +37,26 @@ const Items = styled.div`
   }
 `
 
-const CartDropdown = ({ cartItems }) => {
-  return (
-    <Dropdown>
-      <Items>
-        {cartItems.map((item) => (
-          <CartItem item={item} key={item.id} />
-        ))}
-      </Items>
-      <Button block style={{ margin: "auto" }}>
-        GO TO CHECKOUT
-      </Button>
-    </Dropdown>
-  )
+const CartDropdown = ({ cartItems, hidden }) => {
+  if (hidden)
+    return (
+      <Dropdown>
+        <Items>
+          {cartItems.map((item) => (
+            <CartItem item={item} key={item.id} />
+          ))}
+        </Items>
+        <Button block style={{ margin: "auto" }}>
+          GO TO CHECKOUT
+        </Button>
+      </Dropdown>
+    )
+  else return null
 }
 
-const mapStateToProps = (state) => ({
-  cartItems: selectCartItems(state),
+const mapStateToProps = createStructuredSelector({
+  cartItems: selectCartItems,
+  hidden: selectCartHidden,
 })
 
 export default connect(mapStateToProps)(CartDropdown)

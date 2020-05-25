@@ -6,9 +6,10 @@ import { auth } from "firebase/firebase.config"
 import SideMenu from "./SideMenu"
 
 import { connect } from "react-redux"
+import { createStructuredSelector } from "reselect"
 import CartIcon from "components/cart/CartIcon"
 import CartDropdown from "components/cart/CartDropdown"
-import { selectCartItemsCount } from "redux/cart/cartSelectors"
+import { selectCurrentUser } from "redux/user/userSelector"
 
 const Container = styled.div`
   position: relative;
@@ -61,7 +62,7 @@ const Options = styled.div`
   }
 `
 
-const Header = ({ user, hidden, itemCount }) => {
+const Header = ({ user, itemCount }) => {
   return (
     <Container>
       <Brand to="/">
@@ -78,19 +79,17 @@ const Header = ({ user, hidden, itemCount }) => {
           <LinkBase to="/auth">SING IN</LinkBase>
         )}
         <LinkBase to="#">
-          <CartIcon data={itemCount} />
+          <CartIcon />
         </LinkBase>
       </Options>
-      {hidden && <CartDropdown />}
+      <CartDropdown />
       <SideMenu user={user} singOut={() => auth.signOut()} />
     </Container>
   )
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user.currentUser,
-  hidden: state.cart.hidden,
-  itemCount: selectCartItemsCount(state),
+const mapStateToProps = createStructuredSelector({
+  user: selectCurrentUser,
 })
 
 export default connect(mapStateToProps)(Header)

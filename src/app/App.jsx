@@ -8,6 +8,8 @@ import ThemeUI from "utils/ThemeUI"
 import "./App.css"
 import { connect } from "react-redux"
 import { setCurrentUser } from "redux/user/userActions"
+import { createStructuredSelector } from "reselect"
+import { selectCurrentUser } from "redux/user/userSelector"
 import { createUserProfileDocument, auth } from "firebase/firebase.config"
 
 const Container = styled.div`
@@ -61,8 +63,8 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({
-  user: user.currentUser,
+const mapStateToProps = createStructuredSelector({
+  user: selectCurrentUser,
 })
 
 const mapDispatchToProps = (dispatch) => ({

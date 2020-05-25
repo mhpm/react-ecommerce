@@ -3,6 +3,8 @@ import ShoppingBag from "assets/shopping-bag.png"
 import styled from "styled-components"
 import { connect } from "react-redux"
 import { toggleCartHidden } from "redux/cart/cartActions"
+import { selectCartItemsCount } from "redux/cart/cartSelectors"
+import { createStructuredSelector } from "reselect"
 
 const Data = styled.span`
   justify-content: center;
@@ -16,17 +18,21 @@ const Data = styled.span`
   font-size: 14px;
 `
 
-const CartIcon = ({ data, toggleCartHidden }) => {
+const CartIcon = ({ itemCount, toggleCartHidden }) => {
   return (
     <div onClick={toggleCartHidden}>
-      <Data>{data}</Data>
+      <Data>{itemCount}</Data>
       <img src={ShoppingBag} alt="" height="35" />
     </div>
   )
 }
 
+const mapStateToProps = createStructuredSelector({
+  itemCount: selectCartItemsCount,
+})
+
 const mapDispatchToProps = (dispatch) => ({
   toggleCartHidden: () => dispatch(toggleCartHidden()),
 })
 
-export default connect(null, mapDispatchToProps)(CartIcon)
+export default connect(mapStateToProps, mapDispatchToProps)(CartIcon)
