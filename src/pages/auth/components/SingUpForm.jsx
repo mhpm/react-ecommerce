@@ -3,6 +3,7 @@ import Link from "components/Link"
 import Input from "components/Input"
 import Button from "components/Button"
 import FormContainer from "components/FormContainer"
+import { FaCheck } from "react-icons/fa"
 
 const SingUpForm = ({ switchForm, handleSingUp }) => {
   const [displayName, setDisplayName] = useState("")
@@ -52,10 +53,10 @@ const SingUpForm = ({ switchForm, handleSingUp }) => {
           value={passConfirm}
           icon={
             password !== "" && password === passConfirm ? (
-              <i
+              <FaCheck
                 style={{ color: "rgba(56, 179, 47, 0.61)" }}
-                className="fas fa-check fa-lg"
-              ></i>
+                size="22px"
+              ></FaCheck>
             ) : null
           }
           onChange={(e) => setPassConfirm(e.target.value)}

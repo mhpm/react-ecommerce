@@ -1,16 +1,20 @@
 import React from "react"
 import { Route, Switch, Redirect } from "react-router-dom"
-import Shop from "pages/shop/Shop.Landing"
-import Auth from "pages/auth/Auth.Landing"
-import Header from "components/layout/Header"
 import styled, { ThemeProvider } from "styled-components"
 import ThemeUI from "utils/ThemeUI"
 import "./App.css"
+
 import { connect } from "react-redux"
 import { setCurrentUser } from "redux/user/userActions"
 import { createStructuredSelector } from "reselect"
 import { selectCurrentUser } from "redux/user/userSelector"
 import { createUserProfileDocument, auth } from "firebase/firebase.config"
+
+// Pages and Layout
+import Header from "components/layout/Header"
+import Shop from "pages/shop/Shop.Landing"
+import Auth from "pages/auth/Auth.Landing"
+import Checkout from "pages/checkout/Checkout.Landing"
 
 const Container = styled.div`
   padding: 60px 60px;
@@ -51,6 +55,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" component={Shop} />
             <Route path="/shop" component={Shop} />
+            <Route exact path="/checkout" component={Checkout} />
             <Route
               exact
               path="/auth"

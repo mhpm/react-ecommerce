@@ -40,7 +40,7 @@ const Menu = styled.div`
   top: 0;
   right: ${({ open }) => (open ? "0" : "-330px")};
   z-index: 999;
-  position: absolute;
+  position: fixed;
   padding: 20px;
   width: 50%;
   height: 100vh;
