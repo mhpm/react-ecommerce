@@ -13,6 +13,7 @@ import { createUserProfileDocument, auth } from "firebase/firebase.config"
 // Pages and Layout
 import Header from "components/layout/Header"
 import Shop from "pages/shop/Shop.Landing"
+import Home from "pages/home/Home.Landing"
 import Auth from "pages/auth/Auth.Landing"
 import Checkout from "pages/checkout/Checkout.Landing"
 
@@ -53,7 +54,7 @@ class App extends React.Component {
         <Header />
         <Container>
           <Switch>
-            <Route exact path="/" component={Shop} />
+            <Route exact path="/" component={Home} />
             <Route path="/shop" component={Shop} />
             <Route exact path="/checkout" component={Checkout} />
             <Route

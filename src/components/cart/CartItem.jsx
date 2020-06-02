@@ -17,10 +17,16 @@ const Title = styled.div`
 const CartItem = ({ item: { imageUrl, price, name, quantity } }) => {
   return (
     <Container>
-      <img src={imageUrl} alt="" height="70" width="50" />
+      <img
+        src={imageUrl}
+        alt=""
+        height="70"
+        width="60"
+        style={{ borderRadius: 5 }}
+      />
       <div style={{ marginLeft: 15 }}>
         <Title>{name}</Title>
-        <div style={{ fontSize: 14 }}>
+        <div style={{ fontSize: 14, marginTop: 5 }}>
           {quantity} x ${price}
         </div>
       </div>

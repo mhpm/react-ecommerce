@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import Button from "./Button"
+import Button from "components/Button"
 import { connect } from "react-redux"
 import { addItem } from "redux/cart/cartActions"
 
@@ -8,14 +8,20 @@ const Item = styled.div`
   position: relative;
   height: 650px;
   margin: 5px;
+  overflow: hidden;
 
-  &:hover .bgHover {
-    opacity: 0.5;
-    cursor: pointer;
-  }
+  &:hover {
+    .bgHover {
+      opacity: 0.3;
+    }
+    .btnContainer {
+      opacity: 1;
+    }
 
-  &:hover .btnContainer {
-    opacity: 1;
+    .background-image {
+      transform: scale(1.1);
+      transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+    }
   }
 
   @media screen and (max-width: 750px) {
@@ -30,26 +36,35 @@ const Item = styled.div`
     width: 100%;
   }
 `
-const Img = styled.img`
+const Img = styled.div`
   width: 100%;
-  height: 95%;
+  height: 100%;
   background-size: cover;
   background-position: center;
 `
 const Footer = styled.div`
   display: flex;
-  justify-content: space-between;
-  padding-top: 7px;
+  justify-content: space-around;
+  position: absolute;
+  align-items: center;
+  font-weight: 700;
+  bottom: 0px;
+  color: white;
+  width: 100%;
+  background-color: #212121;
+  height: 40px;
+  z-index: 999;
 `
 
 const ButtonContainer = styled.div`
   opacity: 0;
   position: absolute;
-  bottom: 60px;
+  bottom: 80px;
   width: 100%;
   text-align: center;
   left: 0;
   transition: opacity 0.5s;
+  z-index: 99;
 `
 
 const Background = styled.div`
@@ -57,16 +72,22 @@ const Background = styled.div`
   top: 0;
   background-color: black;
   width: 100%;
-  height: 95%;
+  height: 100%;
   opacity: 0;
   transition: opacity 0.5s;
+  z-index: 2;
 `
 
 const CollectionItem = ({ item, addItem }) => {
   return (
     <Item>
       <Background className="bgHover" />
-      <Img style={{ backgroundImage: `url(${item.imageUrl})` }} />
+      <Img
+        className="background-image"
+        style={{
+          backgroundImage: `url(${item.imageUrl})`,
+        }}
+      />
       <ButtonContainer className="btnContainer">
         <Button style={{ width: 180 }} onClick={() => addItem(item)}>
           ADD TO CART

@@ -5,6 +5,7 @@ import styled from "styled-components"
 const Preview = styled.div`
   width: 100%;
   display: flex;
+  flex: 1 1 auto;
   justify-content: space-between;
   margin-bottom: 60px;
   @media screen and (max-width: 600px) {
