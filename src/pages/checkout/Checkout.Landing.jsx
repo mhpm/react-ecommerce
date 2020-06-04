@@ -103,8 +103,8 @@ const Checkout = ({ cartItems, total, clearItem, addItem, removeItem }) => {
         </Header>
         <HeaderMobile>Shopping Cart</HeaderMobile>
         <List>
-          {cartItems.map((item) => (
-            <Item>
+          {cartItems.map((item, index) => (
+            <Item key={index}>
               <div>
                 <Img src={item.imageUrl} alt="" />
               </div>

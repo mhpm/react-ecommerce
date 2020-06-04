@@ -6,8 +6,9 @@ import { addItem } from "redux/cart/cartActions"
 
 const Item = styled.div`
   position: relative;
-  height: 650px;
+  height: 700px;
   margin: 5px;
+  margin-bottom: 15px;
   overflow: hidden;
 
   &:hover {
@@ -25,23 +26,25 @@ const Item = styled.div`
   }
 
   @media screen and (max-width: 750px) {
-    width: 100%;
+    flex: 1 0 50%;
   }
 
   @media screen and (min-width: 751px) {
-    width: 48%;
+    flex: 1 0 40%;
   }
 
   @media screen and (min-width: 1200px) {
-    width: 100%;
+    flex: 0 24%;
   }
 `
+
 const Img = styled.div`
   width: 100%;
   height: 100%;
   background-size: cover;
   background-position: center;
 `
+
 const Footer = styled.div`
   display: flex;
   justify-content: space-around;
