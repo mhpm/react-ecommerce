@@ -5,6 +5,7 @@ import { createStructuredSelector } from "reselect"
 import { selectCartItems, selectCartTotal } from "redux/cart/cartSelectors"
 import { FaTimes, FaAngleLeft, FaAngleRight } from "react-icons/fa"
 import { cleraItemFromCart, addItem, removeItem } from "redux/cart/cartActions"
+import StripeButton from "components/StripeButton"
 
 const Container = styled.div`
   display: flex;
@@ -13,7 +14,7 @@ const Container = styled.div`
 `
 
 const Wrapper = styled.div`
-  width: 80%;
+  width: 70%;
   @media screen and (min-width: 1000px) {
     width: 60%;
   }
@@ -89,6 +90,21 @@ const Img = styled.img`
     height: 60px;
   }
 `
+const PriceContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  & span:first-child {
+    font-weight: 600;
+  }
+`
+
+const Line = styled.div`
+  border-bottom: 1px solid #cecece;
+  width: 100%;
+`
 
 const Checkout = ({ cartItems, total, clearItem, addItem, removeItem }) => {
   return (
@@ -136,8 +152,23 @@ const Checkout = ({ cartItems, total, clearItem, addItem, removeItem }) => {
             </Item>
           ))}
         </List>
-        <div style={{ float: "right" }}>
-          <h1>Total: $ {total}</h1>
+        <div>
+          <PriceContainer>
+            <span>Subtotal:</span>
+            <span> ${total}</span>
+          </PriceContainer>
+          <PriceContainer>
+            <span>Taxes (%16):</span>
+            <span> ${total * 0.16}</span>
+          </PriceContainer>
+          <PriceContainer>
+            <span>Total:</span>
+            <span>$ {total + total * 0.16}</span>
+          </PriceContainer>
+          <Line />
+        </div>
+        <div style={{ textAlign: "center", marginTop: 30 }}>
+          <StripeButton className="custom" price={total} />
         </div>
       </Wrapper>
     </Container>
