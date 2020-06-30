@@ -10,7 +10,7 @@ const Preview = styled.div`
   place-content: flex-start;
 `
 
-const CollectionPreview = ({ title, items, listSize = 5 }) => {
+const CollectionPreview = ({ title, items, listSize = 4 }) => {
   return (
     <div className="collection-preview">
       <div className="title">

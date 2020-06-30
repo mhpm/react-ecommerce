@@ -57,7 +57,7 @@ const SingInForm = ({ switchForm, handleSingIn, singInWithGoogle }) => {
           <Button block color="gray">
             SING IN
           </Button>
-          <Button block onClick={() => singInWithGoogle()}>
+          <Button block isGoogle onClick={() => singInWithGoogle()}>
             SING IN WITH GOOGLE
           </Button>
         </ButtonContainer>

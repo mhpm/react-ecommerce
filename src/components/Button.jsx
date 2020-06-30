@@ -1,6 +1,22 @@
 import React from "react"
 import styled, { css } from "styled-components"
 
+const InvertedStyle = css`
+  font-weight: 600;
+  color: ${(props) => props.theme.colors.default};
+  background-color: white;
+  border: 2px solid ${(props) => props.theme.colors.default};
+`
+
+const GoogleStyle = css`
+  background-color: #4285f4;
+`
+
+const getBtnStyle = (props) => {
+  if (props.inverted) return InvertedStyle
+  else if (props.isGoogle) return GoogleStyle
+}
+
 const ButtonStyled = styled.button`
   font-family: inherit;
   padding: 20px;
@@ -23,17 +39,8 @@ const ButtonStyled = styled.button`
       background-color: ${(props) => props.theme.colors[props.color]};
     `}
 
-    ${(props) =>
-      props.inverted &&
-      css`
-        font-weight: 600;
-        color: ${(props) => props.theme.colors.default};
-        background-color: white;
-        border: 2px solid ${(props) => props.theme.colors.default};
-      `}
-
   &:active {
-    opacity: 80%;
+    opacity: 60%;
   }
 
   &:disabled {
@@ -45,7 +52,7 @@ const ButtonStyled = styled.button`
     outline: none !important;
   }
 
-
+  ${getBtnStyle}
 `
 
 const Button = (props) => {

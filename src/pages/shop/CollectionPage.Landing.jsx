@@ -8,7 +8,7 @@ const CollectionPage = ({ collection }) => {
 
   return (
     <div>
-      <CollectionList title={title} items={items} listSize={11} />
+      <CollectionList title={title} items={items} listSize={4} />
     </div>
   )
 }
