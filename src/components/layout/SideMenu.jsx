@@ -80,7 +80,7 @@ const SideMenu = ({ user, ...props }) => {
         </LinkBase>
         {user ? (
           <LinkBase to="#" onClick={handleToggle}>
-            SING OUT
+            SIGN OUT
           </LinkBase>
         ) : (
           <LinkBase onClick={toggle} to="/auth">

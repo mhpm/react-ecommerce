@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import SingInForm from "./components/SingInForm"
-import SingUpForm from "./components/SingUpForm"
+import SignInForm from "./components/SignInForm"
+import SignUpForm from "./components/SignUpForm"
 import CenterChildren from "components/CenterChildren"
 import {
   auth,
@@ -40,18 +40,18 @@ const Auth = () => {
   return (
     <CenterChildren>
       {login ? (
-        <SingInForm
+        <SignUpForm
           switchForm={switchForm}
           singInWithGoogle={singInWithGoogle}
           handleSingIn={(email, password) => singIn(email, password)}
-        ></SingInForm>
+        ></SignUpForm>
       ) : (
-        <SingUpForm
+        <SignInForm
           switchForm={switchForm}
           handleSingUp={(displayName, email, password) =>
             singUp(displayName, email, password)
           }
-        ></SingUpForm>
+        ></SignInForm>
       )}
     </CenterChildren>
   )

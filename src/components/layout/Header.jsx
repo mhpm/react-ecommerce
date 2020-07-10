@@ -76,7 +76,7 @@ const Header = ({ user, itemCount }) => {
             SING OUT
           </LinkBase>
         ) : (
-          <LinkBase to="/auth">SING IN</LinkBase>
+          <LinkBase to="/auth">SIGN IN</LinkBase>
         )}
         <LinkBase to="#">
           <CartIcon />
