@@ -40,7 +40,37 @@ const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef
 }
 
-// Initialize Firebase
+const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+  const collectionRef = firestore.collection(collectionKey)
+
+  const batch = firestore.batch()
+  objectsToAdd.forEach((obj) => {
+    const newDocRef = collectionRef.doc()
+    batch.set(newDocRef, obj)
+  })
+
+  return await batch.commit()
+}
+
+const convertCollectionsSnapshotToMap = (collection) => {
+  const transformedCollection = collection.docs.map((doc) => {
+    const { title, items } = doc.data()
+
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items,
+    }
+  })
+
+  return transformedCollection.reduce((accumulator, collection) => {
+    accumulator[collection.title.toLowerCase()] = collection
+    return accumulator
+  }, {})
+}
+
+// google sing in provider
 
 const provider = new firebase.auth.GoogleAuthProvider()
 provider.setCustomParameters({ prompt: "select_account" })
@@ -52,4 +82,6 @@ export {
   firestore,
   singInWithGoogle,
   createUserProfileDocument,
+  addCollectionAndDocuments,
+  convertCollectionsSnapshotToMap,
 }

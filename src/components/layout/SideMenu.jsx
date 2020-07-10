@@ -52,6 +52,12 @@ const Menu = styled.div`
 const SideMenu = ({ user, ...props }) => {
   const [isOpen, setIsOpen] = useState(false)
   const toggle = () => setIsOpen(!isOpen)
+
+  const handleToggle = () => {
+    setIsOpen(!isOpen)
+    props.singOut()
+  }
+
   return (
     <Wrapper>
       <IconMenu onClick={toggle} />
@@ -66,6 +72,21 @@ const SideMenu = ({ user, ...props }) => {
         <LinkBase onClick={toggle} to="/contact">
           CONTACT
         </LinkBase>
+        <LinkBase onClick={toggle} to="/checkout">
+          CHECKOUT
+        </LinkBase>
+        <LinkBase onClick={toggle} to="/checkout">
+          CHECKOUT
+        </LinkBase>
+        {user ? (
+          <LinkBase to="#" onClick={handleToggle}>
+            SING OUT
+          </LinkBase>
+        ) : (
+          <LinkBase onClick={toggle} to="/auth">
+            SING IN
+          </LinkBase>
+        )}
       </Menu>
     </Wrapper>
   )

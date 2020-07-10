@@ -14,6 +14,7 @@ import { createUserProfileDocument, auth } from "firebase/firebase.config"
 import Header from "components/layout/Header"
 import Shop from "pages/shop/Shop.Landing"
 import Home from "pages/home/Home.Landing"
+import Contact from "pages/contact/Contact.Landing"
 import Auth from "pages/auth/Auth.Landing"
 import Checkout from "pages/checkout/Checkout.Landing"
 
@@ -41,6 +42,10 @@ class App extends React.Component {
         })
       }
       setCurrentUser(userAuth)
+      // addCollectionAndDocuments(
+      //   "collections",
+      //   collectionArray.map(({ title, items }) => ({ title, items }))
+      // )
     })
   }
 
@@ -55,6 +60,7 @@ class App extends React.Component {
         <Container>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/contact" component={Contact} />
             <Route path="/shop" component={Shop} />
             <Route exact path="/checkout" component={Checkout} />
             <Route

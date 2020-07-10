@@ -11,6 +11,10 @@ const Container = styled.div`
   justify-content: space-between;
   flex-flow: row wrap;
   width: 100%;
+
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+  }
 `
 
 const Directory = ({ sections }) => {
