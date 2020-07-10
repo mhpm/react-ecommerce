@@ -62,11 +62,11 @@ const SingUpForm = ({ switchForm, handleSingUp }) => {
           onChange={(e) => setPassConfirm(e.target.value)}
         />
         <br /> <br />
-        <Button block>SING UP</Button>
+        <Button block>SIGN UP</Button>
       </form>
       <br />
       <div style={{ textAlign: "center" }}>
-        <Link onClick={switchForm}>I already have an accout, Sing In.</Link>
+        <Link onClick={switchForm}>I already have an accout, Sign In.</Link>
       </div>
     </FormContainer>
   )
