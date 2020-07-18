@@ -2,7 +2,7 @@ import React from "react"
 import { selectCollectionForPreview } from "redux/shop/shopSelector"
 import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
-import CollectionList from "./components/CollectionList"
+import CollectionList from "./CollectionList"
 
 const CollectionOverview = ({ collections }) => {
   return (

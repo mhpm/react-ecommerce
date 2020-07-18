@@ -19,7 +19,7 @@ import Auth from "pages/auth/Auth.Landing"
 import Checkout from "pages/checkout/Checkout.Landing"
 
 const Container = styled.div`
-  padding: 60px 60px;
+  padding: 30px 60px;
   @media (max-width: 600px) {
     padding: 65px 25px;
   }

@@ -7,7 +7,6 @@ const Preview = styled.div`
   justify-content: space-between;
   margin-bottom: 60px;
   flex-flow: row wrap;
-  place-content: flex-start;
 `
 
 const CollectionPreview = ({ title, items, listSize = 4 }) => {
