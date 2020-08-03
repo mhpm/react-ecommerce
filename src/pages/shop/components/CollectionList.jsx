@@ -9,7 +9,7 @@ const Preview = styled.div`
   flex-flow: row wrap;
 `
 
-const CollectionPreview = ({ title, items, listSize = 4 }) => {
+const CollectionPreview = ({ title, items, listSize = 8 }) => {
   return (
     <div className="collection-preview">
       <div className="title">
