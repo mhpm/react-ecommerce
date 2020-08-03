@@ -42,15 +42,15 @@ const Auth = () => {
       {login ? (
         <SignUpForm
           switchForm={switchForm}
-          singInWithGoogle={singInWithGoogle}
-          handleSingIn={(email, password) => singIn(email, password)}
+          handleSingUp={(displayName, email, password) =>
+            singUp(displayName, email, password)
+          }
         ></SignUpForm>
       ) : (
         <SignInForm
           switchForm={switchForm}
-          handleSingUp={(displayName, email, password) =>
-            singUp(displayName, email, password)
-          }
+          handleSingIn={(email, password) => singIn(email, password)}
+          singInWithGoogle={singInWithGoogle}
         ></SignInForm>
       )}
     </CenterChildren>

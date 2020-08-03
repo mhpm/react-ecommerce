@@ -81,7 +81,7 @@ const SideMenu = ({ user, ...props }) => {
           </LinkBase>
         ) : (
           <LinkBase onClick={toggle} to="/auth">
-            SING IN/;
+            SING IN
           </LinkBase>
         )}
       </Menu>
