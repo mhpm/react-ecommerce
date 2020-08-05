@@ -5,10 +5,8 @@ import ThemeUI from "utils/ThemeUI"
 import "./App.css"
 
 import { connect } from "react-redux"
-import { setCurrentUser } from "redux/user/userActions"
 import { createStructuredSelector } from "reselect"
 import { selectCurrentUser } from "redux/user/userSelector"
-import { createUserProfileDocument, auth } from "firebase/firebase.config"
 
 // Pages and Layout
 import Header from "components/layout/Header"
@@ -26,33 +24,6 @@ const Container = styled.div`
 `
 
 class App extends React.Component {
-  unsubscribreFromAuth = null
-
-  componentDidMount() {
-    const { setCurrentUser } = this.props
-
-    this.unsubscribreFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth)
-        userRef.onSnapshot((snapShot) => {
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data(),
-          })
-        })
-      }
-      setCurrentUser(userAuth)
-      // addCollectionAndDocuments(
-      //   "collections",
-      //   collectionArray.map(({ title, items }) => ({ title, items }))
-      // )
-    })
-  }
-
-  componentWillUnmount() {
-    this.unsubscribreFromAuth()
-  }
-
   render() {
     return (
       <ThemeProvider theme={ThemeUI}>
@@ -79,8 +50,4 @@ const mapStateToProps = createStructuredSelector({
   user: selectCurrentUser,
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps, null)(App)

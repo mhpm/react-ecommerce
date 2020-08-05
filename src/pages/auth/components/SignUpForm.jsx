@@ -1,11 +1,10 @@
 import React, { useState } from "react"
-import Link from "components/Link"
 import Input from "components/Input"
 import Button from "components/Button"
 import FormContainer from "components/FormContainer"
 import { FaCheck } from "react-icons/fa"
 
-const SingUpForm = ({ switchForm, handleSingUp }) => {
+const SingUpForm = ({ handleSingUp }) => {
   const [displayName, setDisplayName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -25,7 +24,7 @@ const SingUpForm = ({ switchForm, handleSingUp }) => {
 
   return (
     <FormContainer>
-      <h2>Sing up</h2>
+      <h2>Sign up</h2>
       <p>Please type the next information</p>
       <br />
       <form onSubmit={onSubmit}>
@@ -61,13 +60,9 @@ const SingUpForm = ({ switchForm, handleSingUp }) => {
           }
           onChange={(e) => setPassConfirm(e.target.value)}
         />
-        <br /> <br />
+        <br />
         <Button block>SIGN UP</Button>
       </form>
-      <br />
-      <div style={{ textAlign: "center" }}>
-        <Link onClick={switchForm}>I already have an accout, Sign In.</Link>
-      </div>
     </FormContainer>
   )
 }

@@ -2,13 +2,15 @@ import React, { useState } from "react"
 import SignInForm from "./components/SignInForm"
 import SignUpForm from "./components/SignUpForm"
 import CenterChildren from "components/CenterChildren"
+import Link from "components/Link"
+import { auth, createUserProfileDocument } from "firebase/firebase.config"
 import {
-  auth,
-  createUserProfileDocument,
-  singInWithGoogle,
-} from "firebase/firebase.config"
+  googleSignInStart,
+  emailSignInStart,
+} from "../../redux/user/userActions"
+import { connect } from "react-redux"
 
-const Auth = () => {
+const Auth = ({ googleSignInStart, emailSignInStart }) => {
   const [login, setLogin] = useState(true)
   const switchForm = () => setLogin(!login)
 
@@ -19,42 +21,46 @@ const Auth = () => {
         email,
         password
       )
-
       createUserProfileDocument(user, { displayName })
     } catch (error) {
       console.error(error)
     }
   }
 
-  // Sing In
-  const singIn = (email, password) => {
-    auth.signInWithEmailAndPassword(email, password).catch((error) => {
-      // Handle Errors here.
-      let errorCode = error.code
-      let errorMessage = error.message
-      // ...
-      console.error(errorCode, errorMessage)
-    })
-  }
-
   return (
     <CenterChildren>
       {login ? (
-        <SignUpForm
-          switchForm={switchForm}
-          handleSingUp={(displayName, email, password) =>
-            singUp(displayName, email, password)
-          }
-        ></SignUpForm>
+        <div>
+          <SignUpForm
+            handleSingUp={(displayName, email, password) =>
+              singUp(displayName, email, password)
+            }
+          ></SignUpForm>
+          <div style={{ textAlign: "center" }}>
+            <Link onClick={switchForm}>I already have an accout, Sign In.</Link>
+          </div>
+        </div>
       ) : (
-        <SignInForm
-          switchForm={switchForm}
-          handleSingIn={(email, password) => singIn(email, password)}
-          singInWithGoogle={singInWithGoogle}
-        ></SignInForm>
+        <div>
+          <SignInForm
+            handleSingIn={(email, password) =>
+              emailSignInStart(email, password)
+            }
+            singInWithGoogle={googleSignInStart}
+          ></SignInForm>
+          <div style={{ textAlign: "center" }}>
+            <Link onClick={switchForm}>Don't have an account? Sign Up.</Link>
+          </div>
+        </div>
       )}
     </CenterChildren>
   )
 }
 
-export default Auth
+const mapDispatchToProps = (dispatch) => ({
+  googleSignInStart: () => dispatch(googleSignInStart()),
+  emailSignInStart: (email, password) =>
+    dispatch(emailSignInStart({ email, password })),
+})
+
+export default connect(null, mapDispatchToProps)(Auth)

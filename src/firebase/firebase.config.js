@@ -71,15 +71,16 @@ const convertCollectionsSnapshotToMap = (collection) => {
 }
 
 // google sing in provider
-const provider = new firebase.auth.GoogleAuthProvider()
-provider.setCustomParameters({ prompt: "select_account" })
-const singInWithGoogle = () => auth.signInWithPopup(provider)
+const googleProvider = new firebase.auth.GoogleAuthProvider()
+googleProvider.setCustomParameters({ prompt: "select_account" })
+const singInWithGoogle = () => auth.signInWithPopup(googleProvider)
 
 export {
   auth,
   firebase,
   firestore,
   singInWithGoogle,
+  googleProvider,
   createUserProfileDocument,
   addCollectionAndDocuments,
   convertCollectionsSnapshotToMap,

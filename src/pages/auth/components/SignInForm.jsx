@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import Link from "components/Link"
 import Input from "components/Input"
 import Button from "components/Button"
 import FormContainer from "components/FormContainer"
@@ -22,7 +21,7 @@ const ButtonContainer = styled.div`
   }
 `
 
-const SingInForm = ({ switchForm, handleSingIn, singInWithGoogle }) => {
+const SingInForm = ({ handleSingIn, singInWithGoogle }) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -35,7 +34,7 @@ const SingInForm = ({ switchForm, handleSingIn, singInWithGoogle }) => {
 
   return (
     <FormContainer>
-      <h2>Sing in</h2>
+      <h2>Sign in</h2>
       <p>Please use your email and password</p>
       <br />
       <form onSubmit={onSubmit}>
@@ -52,7 +51,6 @@ const SingInForm = ({ switchForm, handleSingIn, singInWithGoogle }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <br />
-        <br />
         <ButtonContainer>
           <Button block color="gray">
             SIGN IN
@@ -62,10 +60,6 @@ const SingInForm = ({ switchForm, handleSingIn, singInWithGoogle }) => {
           </Button>
         </ButtonContainer>
       </form>
-      <br />
-      <div style={{ textAlign: "center" }}>
-        <Link onClick={switchForm}>Don't have an account? Sign Up.</Link>
-      </div>
     </FormContainer>
   )
 }
