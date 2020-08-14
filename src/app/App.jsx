@@ -7,6 +7,7 @@ import "./App.css"
 import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
 import { selectCurrentUser } from "redux/user/userSelector"
+import { checkUserSession } from "../redux/user/userActions"
 
 // Pages and Layout
 import Header from "components/layout/Header"
@@ -24,6 +25,11 @@ const Container = styled.div`
 `
 
 class App extends React.Component {
+  componentDidMount() {
+    const { checkUserSession } = this.props
+    checkUserSession()
+  }
+
   render() {
     return (
       <ThemeProvider theme={ThemeUI}>
@@ -50,4 +56,8 @@ const mapStateToProps = createStructuredSelector({
   user: selectCurrentUser,
 })
 
-export default connect(mapStateToProps, null)(App)
+const mapDispatchToProps = (dispatch) => ({
+  checkUserSession: () => dispatch(checkUserSession()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

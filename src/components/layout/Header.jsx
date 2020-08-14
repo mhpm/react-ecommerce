@@ -2,7 +2,6 @@ import React from "react"
 import Logo from "assets/logo.png"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
-import { auth } from "firebase/firebase.config"
 import SideMenu from "./SideMenu"
 
 import { connect } from "react-redux"
@@ -10,6 +9,7 @@ import { createStructuredSelector } from "reselect"
 import CartIcon from "components/cart/CartIcon"
 import CartDropdown from "components/cart/CartDropdown"
 import { selectCurrentUser } from "redux/user/userSelector"
+import { signOutStart } from "redux/user/userActions"
 
 const Container = styled.div`
   position: relative;
@@ -58,7 +58,7 @@ const Options = styled.div`
   }
 `
 
-const Header = ({ user, itemCount }) => {
+const Header = ({ user, signOutStart }) => {
   return (
     <Container>
       <Brand to="/">
@@ -72,11 +72,7 @@ const Header = ({ user, itemCount }) => {
           CONTACT
         </LinkBase>
         {user ? (
-          <LinkBase
-            style={{ marginRight: 20 }}
-            to="#"
-            onClick={() => auth.signOut()}
-          >
+          <LinkBase style={{ marginRight: 20 }} to="#" onClick={signOutStart}>
             SING OUT
           </LinkBase>
         ) : (
@@ -89,7 +85,7 @@ const Header = ({ user, itemCount }) => {
         </LinkBase>
       </Options>
       <CartDropdown />
-      <SideMenu user={user} singOut={() => auth.signOut()} />
+      <SideMenu user={user} singOut={signOutStart} />
     </Container>
   )
 }
@@ -98,4 +94,8 @@ const mapStateToProps = createStructuredSelector({
   user: selectCurrentUser,
 })
 
-export default connect(mapStateToProps)(Header)
+const mapDispatchToProps = (dispatch) => ({
+  signOutStart: () => dispatch(signOutStart()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

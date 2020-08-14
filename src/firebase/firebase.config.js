@@ -12,8 +12,6 @@ const config = {
   measurementId: "G-M56YWMJVBE",
 }
 firebase.initializeApp(config)
-const auth = firebase.auth()
-const firestore = firebase.firestore()
 
 const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return
@@ -69,6 +67,18 @@ const convertCollectionsSnapshotToMap = (collection) => {
     return accumulator
   }, {})
 }
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      unsubscribe()
+      resolve(userAuth)
+    }, reject)
+  })
+}
+
+const auth = firebase.auth()
+const firestore = firebase.firestore()
 
 // google sing in provider
 const googleProvider = new firebase.auth.GoogleAuthProvider()
