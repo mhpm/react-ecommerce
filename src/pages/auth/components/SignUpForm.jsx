@@ -17,6 +17,7 @@ const SingUpForm = ({ handleSingUp }) => {
   }
 
   const onSubmit = (e) => {
+    console.log(displayName, email, password)
     e.preventDefault()
     if (!validateForm()) return
     handleSingUp(displayName, email, password)

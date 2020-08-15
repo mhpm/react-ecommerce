@@ -3,37 +3,24 @@ import SignInForm from "./components/SignInForm"
 import SignUpForm from "./components/SignUpForm"
 import CenterChildren from "components/CenterChildren"
 import Link from "components/Link"
-import { auth, createUserProfileDocument } from "firebase/firebase.config"
 import {
   googleSignInStart,
   emailSignInStart,
 } from "../../redux/user/userActions"
 import { connect } from "react-redux"
+import { signUpStart } from "redux/user/userActions"
 
-const Auth = ({ googleSignInStart, emailSignInStart }) => {
+const Auth = ({ googleSignInStart, emailSignInStart, signUpStart }) => {
   const [login, setLogin] = useState(true)
   const switchForm = () => setLogin(!login)
 
-  // Sing Up
-  const singUp = async (displayName, email, password) => {
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      )
-      createUserProfileDocument(user, { displayName })
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   return (
     <CenterChildren>
-      {login ? (
+      {!login ? (
         <div>
           <SignUpForm
             handleSingUp={(displayName, email, password) =>
-              singUp(displayName, email, password)
+              signUpStart({ displayName, email, password })
             }
           ></SignUpForm>
           <div style={{ textAlign: "center" }}>
@@ -61,6 +48,7 @@ const mapDispatchToProps = (dispatch) => ({
   googleSignInStart: () => dispatch(googleSignInStart()),
   emailSignInStart: (email, password) =>
     dispatch(emailSignInStart({ email, password })),
+  signUpStart: (userCredentials) => dispatch(signUpStart(userCredentials)),
 })
 
 export default connect(null, mapDispatchToProps)(Auth)

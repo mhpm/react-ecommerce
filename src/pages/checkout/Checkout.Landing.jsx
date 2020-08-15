@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
 import { selectCartItems, selectCartTotal } from "redux/cart/cartSelectors"
 import { FaTimes, FaAngleLeft, FaAngleRight } from "react-icons/fa"
-import { cleraItemFromCart, addItem, removeItem } from "redux/cart/cartActions"
+import { clearItemFromCart, addItem, removeItem } from "redux/cart/cartActions"
 import StripeButton from "components/StripeButton"
 
 const Container = styled.div`
@@ -181,7 +181,7 @@ const mapStateToProps = createStructuredSelector({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  clearItem: (item) => dispatch(cleraItemFromCart(item)),
+  clearItem: (item) => dispatch(clearItemFromCart(item)),
   addItem: (item) => dispatch(addItem(item)),
   removeItem: (item) => dispatch(removeItem(item)),
 })
