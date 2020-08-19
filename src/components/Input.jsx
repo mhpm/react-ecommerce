@@ -46,11 +46,11 @@ const Icon = styled.div`
   bottom: 10px;
 `
 
-const Input = ({ label, value, helpText, onChange, type, icon }) => {
+const Input = ({ label, value, helpText, onChange, type, icon, name }) => {
   return (
     <InputContainer>
       {icon && <Icon>{icon}</Icon>}
-      <InputStyled type={type} value={value} onChange={onChange} />
+      <InputStyled name={name} type={type} value={value} onChange={onChange} />
       <Label htmlFor={label}>{label}</Label>
       <HelpText>{helpText}</HelpText>
     </InputContainer>

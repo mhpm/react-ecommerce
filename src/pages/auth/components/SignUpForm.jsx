@@ -5,10 +5,21 @@ import FormContainer from "components/FormContainer"
 import { FaCheck } from "react-icons/fa"
 
 const SingUpForm = ({ handleSingUp }) => {
-  const [displayName, setDisplayName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [passConfirm, setPassConfirm] = useState("")
+  const [userCredentials, setCredentials] = useState({
+    displayName: "",
+    email: "",
+    password: "",
+    passConfirm: "",
+  })
+
+  const { displayName, email, password, passConfirm } = userCredentials
+
+  const handleChange = (event) => {
+    setCredentials({
+      ...userCredentials,
+      [event.target.name]: event.target.value,
+    })
+  }
 
   const validateForm = () => {
     if (displayName === "" || email === "" || password === "") return false
@@ -17,7 +28,6 @@ const SingUpForm = ({ handleSingUp }) => {
   }
 
   const onSubmit = (e) => {
-    console.log(displayName, email, password)
     e.preventDefault()
     if (!validateForm()) return
     handleSingUp(displayName, email, password)
@@ -32,25 +42,29 @@ const SingUpForm = ({ handleSingUp }) => {
         <Input
           type="text"
           value={displayName}
-          onChange={(e) => setDisplayName(e.target.value)}
+          name="displayName"
+          onChange={handleChange}
           label="Display Name"
         />
         <Input
           type="text"
           label="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          onChange={handleChange}
         />
         <Input
           type="password"
           label="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          name="password"
+          onChange={handleChange}
         />
         <Input
           type="password"
           label="Confirm Password"
           value={passConfirm}
+          name="passConfirm"
           icon={
             password !== "" && password === passConfirm ? (
               <FaCheck
@@ -59,7 +73,7 @@ const SingUpForm = ({ handleSingUp }) => {
               ></FaCheck>
             ) : null
           }
-          onChange={(e) => setPassConfirm(e.target.value)}
+          onChange={handleChange}
         />
         <br />
         <Button block>SIGN UP</Button>
