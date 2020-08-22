@@ -1,15 +1,15 @@
-import React from "react"
+import React, { useContext, useState } from "react"
 import Logo from "assets/logo.png"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
+
 import SideMenu from "./SideMenu"
 
-import { connect } from "react-redux"
-import { createStructuredSelector } from "reselect"
-import CartIcon from "components/cart/CartIcon"
 import CartDropdown from "components/cart/CartDropdown"
-import { selectCurrentUser } from "redux/user/userSelector"
-import { signOutStart } from "redux/user/userActions"
+
+import UserContext from "context/user/userContext"
+import CartContext from "context/cart/cartContext"
+import { auth } from "firebase/firebase.config"
 
 const Container = styled.div`
   position: relative;
@@ -58,7 +58,11 @@ const Options = styled.div`
   }
 `
 
-const Header = ({ user, signOutStart }) => {
+const Header = () => {
+  const user = useContext(UserContext)
+  const [hidden, setHidden] = useState(true)
+  const toggleHidden = () => setHidden(!hidden)
+
   return (
     <Container>
       <Brand to="/">
@@ -72,7 +76,11 @@ const Header = ({ user, signOutStart }) => {
           CONTACT
         </LinkBase>
         {user ? (
-          <LinkBase style={{ marginRight: 20 }} to="#" onClick={signOutStart}>
+          <LinkBase
+            style={{ marginRight: 20 }}
+            to="#"
+            onClick={() => auth.signOut()}
+          >
             SING OUT
           </LinkBase>
         ) : (
@@ -80,22 +88,18 @@ const Header = ({ user, signOutStart }) => {
             SIGN IN
           </LinkBase>
         )}
-        <LinkBase to="#">
-          <CartIcon />
-        </LinkBase>
+        <CartContext.Provider
+          value={{
+            hidden,
+            toggleHidden,
+          }}
+        >
+          <CartDropdown hidden={hidden} />
+        </CartContext.Provider>
       </Options>
-      <CartDropdown />
-      <SideMenu user={user} singOut={signOutStart} />
+      <SideMenu user={user} singOut={() => auth.signOut()} />
     </Container>
   )
 }
 
-const mapStateToProps = createStructuredSelector({
-  user: selectCurrentUser,
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  signOutStart: () => dispatch(signOutStart()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default Header

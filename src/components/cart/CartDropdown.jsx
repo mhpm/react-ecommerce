@@ -1,12 +1,14 @@
-import React from "react"
+import React, { useContext } from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 import Button from "../Button"
 import { connect } from "react-redux"
 import CartItem from "./CartItem"
 import { toggleCartHidden } from "redux/cart/cartActions"
-import { selectCartItems, selectCartHidden } from "redux/cart/cartSelectors"
+import { selectCartItems } from "redux/cart/cartSelectors"
 import { createStructuredSelector } from "reselect"
+import CartIcon from "components/cart/CartIcon"
+import CartContext from "context/cart/cartContext"
 import emptyImg from "assets/empty.png"
 
 const Dropdown = styled.div`
@@ -49,37 +51,57 @@ const EmptyContainer = styled.div`
   width: 100%;
   height: 100%;
 `
+const LinkBase = styled(Link)`
+  position: relative;
+  text-decoration: none;
+  color: #bf3272;
+  font-weight: 500;
+  font-size: 16px;
+
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
+`
 
 const CartDropdown = ({ cartItems, hidden, dispatch }) => {
-  if (hidden)
-    return (
-      <Dropdown>
-        {cartItems.length ? (
-          <div>
-            <Items>
-              {cartItems.map((item) => (
-                <CartItem item={item} key={item.id} />
-              ))}
-            </Items>
-            <Link to="/checkout" onClick={() => dispatch(toggleCartHidden())}>
-              <Button block style={{ margin: "auto" }}>
-                GO TO CHECKOUT
-              </Button>
-            </Link>
-          </div>
-        ) : (
-          <EmptyContainer>
-            <img src={emptyImg} alt="" width="600" />
-          </EmptyContainer>
-        )}
-      </Dropdown>
-    )
-  else return null
+  const { toggleHidden } = useContext(CartContext)
+  return (
+    <>
+      <LinkBase to="#">
+        <CartIcon toggleHidden={toggleHidden} />
+      </LinkBase>
+      {!hidden ? (
+        <Dropdown>
+          {cartItems.length ? (
+            <div>
+              <Items>
+                {cartItems.map((item) => (
+                  <CartItem item={item} key={item.id} />
+                ))}
+              </Items>
+              <Link to="/checkout" onClick={() => dispatch(toggleCartHidden())}>
+                <Button block style={{ margin: "auto" }}>
+                  GO TO CHECKOUT
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <EmptyContainer>
+              <img src={emptyImg} alt="" width="600" />
+            </EmptyContainer>
+          )}
+        </Dropdown>
+      ) : null}
+    </>
+  )
 }
 
 const mapStateToProps = createStructuredSelector({
   cartItems: selectCartItems,
-  hidden: selectCartHidden,
 })
 
 export default connect(mapStateToProps)(CartDropdown)

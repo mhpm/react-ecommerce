@@ -4,10 +4,8 @@ import styled, { ThemeProvider } from "styled-components"
 import ThemeUI from "utils/ThemeUI"
 import "./App.css"
 
-import { connect } from "react-redux"
-import { createStructuredSelector } from "reselect"
-import { selectCurrentUser } from "redux/user/userSelector"
-import { checkUserSession } from "../redux/user/userActions"
+import UserContext from "context/user/userContext"
+import { auth, createUserProfileDocument } from "firebase/firebase.config"
 
 // Pages and Layout
 import Header from "components/layout/Header"
@@ -25,15 +23,38 @@ const Container = styled.div`
 `
 
 class App extends React.Component {
+  state = {
+    currentUser: null,
+  }
+
+  unsubscribeFromAuth = null
+
   componentDidMount() {
-    const { checkUserSession } = this.props
-    checkUserSession()
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth)
+
+        userRef.onSnapshot((snapShot) => {
+          this.setState({
+            currentUser: { id: snapShot.id, ...snapShot.data() },
+          })
+        })
+      }
+
+      this.setState({ currentUser: userAuth })
+    })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeFromAuth()
   }
 
   render() {
     return (
       <ThemeProvider theme={ThemeUI}>
-        <Header />
+        <UserContext.Provider value={this.state.currentUser}>
+          <Header />
+        </UserContext.Provider>
         <Container>
           <Switch>
             <Route exact path="/" component={Home} />
@@ -43,7 +64,9 @@ class App extends React.Component {
             <Route
               exact
               path="/auth"
-              render={() => (this.props.user ? <Redirect to="/" /> : <Auth />)}
+              render={() =>
+                this.state.currentUser ? <Redirect to="/" /> : <Auth />
+              }
             />
           </Switch>
         </Container>
@@ -52,12 +75,4 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = createStructuredSelector({
-  user: selectCurrentUser,
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  checkUserSession: () => dispatch(checkUserSession()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default App
