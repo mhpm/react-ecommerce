@@ -1,11 +1,9 @@
-import React from "react"
+import React, { useContext } from "react"
 import styled from "styled-components"
-import { connect } from "react-redux"
-import { createStructuredSelector } from "reselect"
-import { selectCartItems, selectCartTotal } from "redux/cart/cartSelectors"
 import { FaTimes, FaAngleLeft, FaAngleRight } from "react-icons/fa"
-import { clearItemFromCart, addItem, removeItem } from "redux/cart/cartActions"
 import StripeButton from "components/StripeButton"
+
+import { CartContext } from "providers/cart/cartProvider"
 
 const Container = styled.div`
   display: flex;
@@ -106,7 +104,15 @@ const Line = styled.div`
   width: 100%;
 `
 
-const Checkout = ({ cartItems, total, clearItem, addItem, removeItem }) => {
+const Checkout = () => {
+  const {
+    removeItem,
+    addItem,
+    cartItems,
+    clearItemFromCart,
+    cartTotalPrice,
+  } = useContext(CartContext)
+
   return (
     <Container>
       <Wrapper>
@@ -144,7 +150,7 @@ const Checkout = ({ cartItems, total, clearItem, addItem, removeItem }) => {
               <div>$ {item.price}</div>
               <div className="last">
                 <FaTimes
-                  onClick={() => clearItem(item)}
+                  onClick={() => clearItemFromCart(item)}
                   size="20px"
                   style={{ marginLeft: 17, cursor: "pointer" }}
                 />
@@ -155,35 +161,27 @@ const Checkout = ({ cartItems, total, clearItem, addItem, removeItem }) => {
         <div>
           <PriceContainer>
             <span>Subtotal:</span>
-            <span> ${total}</span>
+            <span> ${cartTotalPrice}</span>
           </PriceContainer>
           <PriceContainer>
             <span>Taxes (%16):</span>
-            <span> ${total * 0.16}</span>
+            <span> ${cartTotalPrice * 0.16}</span>
           </PriceContainer>
           <PriceContainer>
             <span>Total:</span>
-            <span>$ {total + total * 0.16}</span>
+            <span>$ {cartTotalPrice + cartTotalPrice * 0.16}</span>
           </PriceContainer>
           <Line />
         </div>
         <div style={{ textAlign: "center", marginTop: 30 }}>
-          <StripeButton className="custom" price={total} />
+          <StripeButton
+            className="custom"
+            price={cartTotalPrice + cartTotalPrice * 0.16}
+          />
         </div>
       </Wrapper>
     </Container>
   )
 }
 
-const mapStateToProps = createStructuredSelector({
-  cartItems: selectCartItems,
-  total: selectCartTotal,
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  clearItem: (item) => dispatch(clearItemFromCart(item)),
-  addItem: (item) => dispatch(addItem(item)),
-  removeItem: (item) => dispatch(removeItem(item)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Checkout)
+export default Checkout

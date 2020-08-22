@@ -3,6 +3,7 @@ import Input from "components/Input"
 import Button from "components/Button"
 import FormContainer from "components/FormContainer"
 import styled from "styled-components"
+import { auth, signInWithGoogle } from "firebase/firebase.config"
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -21,15 +22,21 @@ const ButtonContainer = styled.div`
   }
 `
 
-const SingInForm = ({ handleSingIn, singInWithGoogle }) => {
+const SingInForm = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
     if (email === "" || password === "") return
 
-    handleSingIn(email, password)
+    try {
+      await auth.signInWithEmailAndPassword(email, password)
+      setEmail("")
+      setPassword("")
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -55,7 +62,7 @@ const SingInForm = ({ handleSingIn, singInWithGoogle }) => {
           <Button block color="gray">
             SIGN IN
           </Button>
-          <Button block isGoogle onClick={singInWithGoogle}>
+          <Button block isGoogle onClick={signInWithGoogle}>
             SIGN IN WITH GOOGLE
           </Button>
         </ButtonContainer>

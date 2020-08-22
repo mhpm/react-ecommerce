@@ -1,9 +1,7 @@
-import React from "react"
+import React, { useContext } from "react"
 import ShoppingBag from "assets/shopping-bag.png"
 import styled from "styled-components"
-import { connect } from "react-redux"
-import { selectCartItemsCount } from "redux/cart/cartSelectors"
-import { createStructuredSelector } from "reselect"
+import { CartContext } from "providers/cart/cartProvider"
 
 const Data = styled.span`
   justify-content: center;
@@ -17,17 +15,14 @@ const Data = styled.span`
   font-size: 14px;
 `
 
-const CartIcon = ({ itemCount, toggleHidden }) => {
+const CartIcon = () => {
+  const { toggleHidden, cartItemsCount } = useContext(CartContext)
   return (
     <div onClick={toggleHidden}>
-      <Data>{itemCount}</Data>
+      <Data>{cartItemsCount}</Data>
       <img src={ShoppingBag} alt="" height="35" />
     </div>
   )
 }
 
-const mapStateToProps = createStructuredSelector({
-  itemCount: selectCartItemsCount,
-})
-
-export default connect(mapStateToProps)(CartIcon)
+export default CartIcon

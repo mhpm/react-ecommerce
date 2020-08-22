@@ -1,8 +1,7 @@
-import React from "react"
+import React, { useContext } from "react"
 import styled from "styled-components"
 import Button from "components/Button"
-import { connect } from "react-redux"
-import { addItem } from "redux/cart/cartActions"
+import { CartContext } from "providers/cart/cartProvider"
 
 const Item = styled.div`
   position: relative;
@@ -81,7 +80,8 @@ const Background = styled.div`
   z-index: 2;
 `
 
-const CollectionItem = ({ item, addItem }) => {
+const CollectionItem = ({ item }) => {
+  const { addItem } = useContext(CartContext)
   return (
     <Item>
       <Background className="bgHover" />
@@ -104,8 +104,4 @@ const CollectionItem = ({ item, addItem }) => {
   )
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  addItem: (item) => dispatch(addItem(item)),
-})
-
-export default connect(null, mapDispatchToProps)(CollectionItem)
+export default CollectionItem

@@ -3,8 +3,9 @@ import Input from "components/Input"
 import Button from "components/Button"
 import FormContainer from "components/FormContainer"
 import { FaCheck } from "react-icons/fa"
+import { auth, createUserProfileDocument } from "firebase/firebase.config"
 
-const SingUpForm = ({ handleSingUp }) => {
+const SingUpForm = () => {
   const [displayName, setDisplayName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -16,11 +17,20 @@ const SingUpForm = ({ handleSingUp }) => {
     else return true
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     console.log(displayName, email, password)
     e.preventDefault()
     if (!validateForm()) return
-    handleSingUp(displayName, email, password)
+
+    try {
+      const { user } = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      )
+      await createUserProfileDocument(user, { displayName })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (

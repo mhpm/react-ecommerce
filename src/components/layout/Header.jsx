@@ -1,14 +1,10 @@
-import React, { useContext, useState } from "react"
+import React, { useContext } from "react"
 import Logo from "assets/logo.png"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
-
 import SideMenu from "./SideMenu"
-
 import CartDropdown from "components/cart/CartDropdown"
-
 import UserContext from "context/user/userContext"
-import CartContext from "context/cart/cartContext"
 import { auth } from "firebase/firebase.config"
 
 const Container = styled.div`
@@ -60,8 +56,6 @@ const Options = styled.div`
 
 const Header = () => {
   const user = useContext(UserContext)
-  const [hidden, setHidden] = useState(true)
-  const toggleHidden = () => setHidden(!hidden)
 
   return (
     <Container>
@@ -88,14 +82,7 @@ const Header = () => {
             SIGN IN
           </LinkBase>
         )}
-        <CartContext.Provider
-          value={{
-            hidden,
-            toggleHidden,
-          }}
-        >
-          <CartDropdown hidden={hidden} />
-        </CartContext.Provider>
+        <CartDropdown />
       </Options>
       <SideMenu user={user} singOut={() => auth.signOut()} />
     </Container>

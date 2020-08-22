@@ -83,13 +83,13 @@ const firestore = firebase.firestore()
 // google sing in provider
 const googleProvider = new firebase.auth.GoogleAuthProvider()
 googleProvider.setCustomParameters({ prompt: "select_account" })
-const singInWithGoogle = () => auth.signInWithPopup(googleProvider)
+const signInWithGoogle = () => auth.signInWithPopup(googleProvider)
 
 export {
   auth,
   firebase,
   firestore,
-  singInWithGoogle,
+  signInWithGoogle,
   googleProvider,
   createUserProfileDocument,
   addCollectionAndDocuments,

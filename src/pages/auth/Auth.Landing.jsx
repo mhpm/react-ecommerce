@@ -3,14 +3,8 @@ import SignInForm from "./components/SignInForm"
 import SignUpForm from "./components/SignUpForm"
 import CenterChildren from "components/CenterChildren"
 import Link from "components/Link"
-import {
-  googleSignInStart,
-  emailSignInStart,
-} from "../../redux/user/userActions"
-import { connect } from "react-redux"
-import { signUpStart } from "redux/user/userActions"
 
-const Auth = ({ googleSignInStart, emailSignInStart, signUpStart }) => {
+const Auth = () => {
   const [login, setLogin] = useState(true)
   const switchForm = () => setLogin(!login)
 
@@ -18,23 +12,14 @@ const Auth = ({ googleSignInStart, emailSignInStart, signUpStart }) => {
     <CenterChildren>
       {!login ? (
         <div>
-          <SignUpForm
-            handleSingUp={(displayName, email, password) =>
-              signUpStart({ displayName, email, password })
-            }
-          ></SignUpForm>
+          <SignUpForm />
           <div style={{ textAlign: "center" }}>
             <Link onClick={switchForm}>I already have an accout, Sign In.</Link>
           </div>
         </div>
       ) : (
         <div>
-          <SignInForm
-            handleSingIn={(email, password) =>
-              emailSignInStart(email, password)
-            }
-            singInWithGoogle={googleSignInStart}
-          ></SignInForm>
+          <SignInForm />
           <div style={{ textAlign: "center" }}>
             <Link onClick={switchForm}>Don't have an account? Sign Up.</Link>
           </div>
@@ -44,11 +29,4 @@ const Auth = ({ googleSignInStart, emailSignInStart, signUpStart }) => {
   )
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  googleSignInStart: () => dispatch(googleSignInStart()),
-  emailSignInStart: (email, password) =>
-    dispatch(emailSignInStart({ email, password })),
-  signUpStart: (userCredentials) => dispatch(signUpStart(userCredentials)),
-})
-
-export default connect(null, mapDispatchToProps)(Auth)
+export default Auth
