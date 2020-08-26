@@ -1,4 +1,4 @@
-import React from "react"
+import React, { lazy, Suspense } from "react"
 import { Route, Switch, Redirect } from "react-router-dom"
 import styled, { ThemeProvider } from "styled-components"
 import ThemeUI from "utils/ThemeUI"
@@ -9,11 +9,14 @@ import { auth, createUserProfileDocument } from "firebase/firebase.config"
 
 // Pages and Layout
 import Header from "components/layout/Header"
-import Shop from "pages/shop/Shop.Landing"
-import Home from "pages/home/Home.Landing"
-import Contact from "pages/contact/Contact.Landing"
-import Auth from "pages/auth/Auth.Landing"
-import Checkout from "pages/checkout/Checkout.Landing"
+import Spinner from "components/Spinner"
+import ErrorBoundary from "components/ErrorBoundary"
+
+const Shop = lazy(() => import("pages/shop/Shop.Landing"))
+const Home = lazy(() => import("pages/home/Home.Landing"))
+const Contact = lazy(() => import("pages/contact/Contact.Landing"))
+const Auth = lazy(() => import("pages/auth/Auth.Landing"))
+const Checkout = lazy(() => import("pages/checkout/Checkout.Landing"))
 
 const Container = styled.div`
   padding: 30px 60px;
@@ -57,17 +60,21 @@ class App extends React.Component {
         </UserContext.Provider>
         <Container>
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/contact" component={Contact} />
-            <Route path="/shop" component={Shop} />
-            <Route exact path="/checkout" component={Checkout} />
-            <Route
-              exact
-              path="/auth"
-              render={() =>
-                this.state.currentUser ? <Redirect to="/" /> : <Auth />
-              }
-            />
+            <ErrorBoundary>
+              <Suspense fallback={<Spinner />}>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/contact" component={Contact} />
+                <Route path="/shop" component={Shop} />
+                <Route exact path="/checkout" component={Checkout} />
+                <Route
+                  exact
+                  path="/auth"
+                  render={() =>
+                    this.state.currentUser ? <Redirect to="/" /> : <Auth />
+                  }
+                />
+              </Suspense>
+            </ErrorBoundary>
           </Switch>
         </Container>
       </ThemeProvider>

@@ -9,14 +9,12 @@ const Container = styled.div`
   height: 500px;
 `
 
-const WithSpinner = (WrappedComponent) => ({ isLoading, ...otherProps }) => {
-  return isLoading ? (
+const Spinner = () => {
+  return (
     <Container>
-      <PulseLoader size={15} color={"rgb(191, 50, 114)"} loading={isLoading} />
+      <PulseLoader size={12} color={"rgb(191, 50, 114)"} />
     </Container>
-  ) : (
-    <WrappedComponent {...otherProps} />
   )
 }
 
-export default WithSpinner
+export default Spinner
